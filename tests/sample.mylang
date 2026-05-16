@@ -1,0 +1,21 @@
+// Compute the nth Fibonacci number iteratively.
+// This exercises the full token set.
+
+fn fib(n: i64) -> i64 {
+    let a: i64 = 0;
+    let b: i64 = 1;
+    let i: i64 = 0;
+
+    while i < n {
+        let tmp: i64 = a + b;
+        a = b;
+        b = tmp;
+        i = i + 1;
+    }
+
+    return a;
+}
+
+fn is_even(x: i64) -> bool {
+    return (x / 2) * 2 == x;
+}
