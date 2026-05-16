@@ -25,7 +25,7 @@ fn fib(n: i64) -> i64 {
 
 The compiler is written in C with zero external dependencies. No LLVM, no Flex, no Bison. Every phase — lexing, parsing, type checking, IR generation, and code generation — is hand-written.
 
-**Status:** Lexer ✅ · Parser ✅ · Type Checker 🔧 · IR 🔧 · AArch64 Codegen 🔧
+**Status:** Lexer ✅ · Parser 🔧 · Type Checker 🔧 · IR 🔧 · AArch64 Codegen 🔧
 
 ---
 
@@ -89,12 +89,6 @@ did-lang/
 ├── src/
 │   ├── main.c          # Driver — wires all phases together
 │   ├── lexer.h / .c    # Hand-written lexer
-│   ├── arena.h / .c    # Arena (bump) allocator
-│   ├── ast.h / .c      # AST node definitions + debug printer
-│   ├── parser.h / .c   # Recursive descent parser
-│   ├── sema.h / .c     # Semantic analysis + type checker   [WIP]
-│   ├── ir.h / .c       # Three-address IR                  [WIP]
-│   └── codegen.h / .c  # AArch64 code generator            [WIP]
 ├── tests/
 │   └── sample.mylang   # Example source file
 └── Makefile
@@ -109,7 +103,7 @@ did-lang/
 - `make`
 
 ```bash
-git clone https://github.com/yourusername/did-lang
+git clone https://github.com/Did2468/did-lang
 cd did-lang
 make
 ```
@@ -124,23 +118,11 @@ This produces a `mycc` binary in the project root.
 # Lex and dump the token stream
 ./mycc tokens tests/sample.mylang
 
-# Parse and dump the AST
+# Parse and dump the AST [work in progress]
 ./mycc ast tests/sample.mylang
 
 # Compile to AArch64 assembly  [coming soon]
 ./mycc compile tests/sample.mylang -o output.s
-```
-
----
-
-## Running on QEMU (target platform)
-
-The compiler targets QEMU's `virt` AArch64 machine. Once codegen is complete, output assembly will be assembled and linked for bare-metal execution:
-
-```bash
-aarch64-elf-as output.s -o output.o
-aarch64-elf-ld output.o -o output.elf
-qemu-system-aarch64 -M virt -cpu cortex-a57 -kernel output.elf -nographic
 ```
 
 ---
@@ -160,9 +142,9 @@ qemu-system-aarch64 -M virt -cpu cortex-a57 -kernel output.elf -nographic
 ## Roadmap
 
 - [x] Lexer with full token set and error recovery
-- [x] Recursive descent parser → AST
-- [x] Arena allocator
-- [x] AST pretty printer
+- [ ] Recursive descent parser → AST
+- [ ] Arena allocator
+- [ ] AST pretty printer
 - [ ] Semantic analysis — type checker and symbol table
 - [ ] Three-address IR with explicit control flow
 - [ ] AArch64 code generator (AAPCS64 calling convention)
@@ -174,9 +156,7 @@ qemu-system-aarch64 -M virt -cpu cortex-a57 -kernel output.elf -nographic
 
 ## Context
 
-This compiler is being built alongside a bare-metal AArch64 OS targeting QEMU's `virt` machine. The long-term goal is a language that compiles to assembly that runs directly on that OS — no host OS, no libc, just the hardware.
-
-Both projects are developed on an Apple M1 MacBook Air using an `aarch64-elf` cross-toolchain via Homebrew.
+Both projects are developed on an Apple M1 MacBook Air using an `aarch64-elf` cross-toolchain .
 
 ---
 
